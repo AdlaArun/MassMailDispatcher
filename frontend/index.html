@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>  
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="./mail2.png" type="image/x-icon">
+        <title>Mass Mail Dispatcher</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    </head>
+    <body>
+        <!-- Notification -->
+        <div class="notification-1">
+            <p class="notification-message"></p>
+            <div class="loader"></div>              
+        </div>
+        <div class="notification-2">
+            <p class="notification-message"></p>
+        </div>
+
+        <!-- Main Heading -->
+        <div class="heading">
+            <h1>Mass Mail Dispatcher</h1>
+        </div>
+        
+        
+        <div class="container">
+            <div class="bar">
+                <span class="nav-bar">
+                        <h1 class="anieff">Home</h1>
+                        <h1 class="anieff">Valid Mails</h1>
+                        <h1 class="anieff ani2">Invalid Mails</h1>
+                    </span>
+                    
+                    <span class="scroll-bar">
+                        <div class="round" id="btn-1"><p><i class="fa-solid fa-house"></i></p></div>
+                        <div class="round" id="btn-2"><p><i class="fa-solid fa-check"></i></p></div>
+                        <div class="round" id="btn-3"><p><i class="fa-solid fa-xmark"></i></p></div>
+                    </span>
+                    
+            </div>
+            <div class="dummy"></div>
+            <div class="container-2">
+                <div class="box" id="box1">
+                    <form>    
+                    <div class="group">
+                        <p>From </p>
+                        <input type="email" class="inp" name="" id="from" placeholder="Enter your email address here" required>
+                    </div>
+
+                    <div class="group spr">
+                        <p>To</p>
+                            <p id="upf">(Upload .csv file)</p>
+                            <input type="file" name="" id="selectbtn" required title="Please upload a File First" required>
+                        </div>
+                        
+                        <div class="group">
+                            <p>Subject </p>
+                            <input type="text" class="inp" name="" id="subject" placeholder="Enter your Subject here" required>
+                        </div>
+                        
+                        <div class="content-box">
+                            <p>Content</p>
+                            
+                            <textarea id="content-box" class="inp" placeholder="Enter your message here" required></textarea>
+                            
+                            <div class="send-btn">
+                                <button id="s-btn">Send</button>
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </form>
+
+                <div class="box" id="box2"></div>
+                
+                <div class="box" id="box3"></div>
+
+            </div>
+            
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="app.js"></script>
+    </body>
+</html>
