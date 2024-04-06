@@ -1,6 +1,7 @@
 const nodemailer = require("nodemailer");
 const {validEmailIDs} = require('./mailValidator')
-require('dotenv').config()
+// require('dotenv').config()
+const config = require('./config')
 
 const sendMail = async (req, res) => {
 
@@ -13,8 +14,8 @@ const sendMail = async (req, res) => {
                 // Here you should add ur own username and password where username is ur email id 
                 // and password is the main password of ur email id which you use to login into ur email service
                 // gmail, yahoo, etc
-                user: "username",
-                pass: "password"
+                user: config.email.username,
+                pass: config.email.password
             }
         })
         
