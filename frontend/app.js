@@ -1,32 +1,27 @@
-const btn1 = document.querySelector('#btn-1'); 
-const btn2 = document.querySelector('#btn-2'); 
-const btn3 = document.querySelector('#btn-3'); 
-const box1 = document.querySelector('#box1')
-const box2 = document.querySelector('#box2')
-const box3 = document.querySelector('#box3')
-const headings = document.querySelector('.nav-bar')
-const heading = headings.querySelectorAll('h1')
-const ani1 = document.querySelector('.emerge')
-const elem1 = document.querySelector('.container-2')
-const selectBtn = document.querySelector("#selectbtn")
 const sendBtn = document.querySelector("#s-btn")
-const notif_1 = document.querySelector(`.notification-1`)
-const notif_2 = document.querySelector(`.notification-2`)
-let mailids = {}
-
-
-box2.style.display = "none";
-box3.style.display = "none";
-btn1.style.color = "white";
 sendBtn.disabled = true
-notif_1.style.display = 'none'
-notif_2.style.display = 'none'
+// ------------------------ The Note Window and Faded Background ------------------------
+
+const closeButton = document.querySelector('.close-btn');
+const modalOverlay = document.querySelector('.modal-overlay');
+const noteWindow = document.querySelector('.note-window');
+
+function closeModal() {
+    noteWindow.style.display = 'none'; 
+    modalOverlay.style.display = 'none';
+}
+
+closeButton.addEventListener('click', closeModal);
+
+modalOverlay.addEventListener('click', closeModal);
+
 
 // --------------------------------- Functions ------------------------------------------
 
+const notif_1 = document.querySelector(`.notification-1`)
+const notif_2 = document.querySelector(`.notification-2`)
+
 const notifier = async (msg, num, border_color) => {
-  const notif_1 = document.querySelector(`.notification-1`)
-  const notif_2 = document.querySelector(`.notification-2`)
   const notifmsg = document.querySelectorAll(".notification-message")
 
   if (num === 1) {
@@ -59,11 +54,11 @@ const notifier = async (msg, num, border_color) => {
   }
 }
 
+const container = document.querySelector('.container');
+const boxes = container.querySelectorAll('.box');
 let currentBoxIndex = 1;
 
 async function scrollToBox(targetBoxIndex) {
-  const container = document.querySelector('.container');
-  const boxes = container.querySelectorAll('.box');
   const currentBox = boxes[currentBoxIndex - 1];
   const targetBox = boxes[targetBoxIndex - 1];
     
@@ -72,7 +67,7 @@ async function scrollToBox(targetBoxIndex) {
         
     await setTimeout(() => {
       currentBox.style.display = 'none';
-      targetBox.style.display = 'block';
+      targetBox.style.display = 'flex';
       targetBox.classList.add('active');
       currentBox.classList.remove('hidden');
       currentBoxIndex = targetBoxIndex; 
@@ -80,6 +75,9 @@ async function scrollToBox(targetBoxIndex) {
     currentBox.classList.remove('active')
   }
 }
+
+const headings = document.querySelector('.nav-bar')
+const heading = headings.querySelectorAll('h1')
 
 function addColor(targetBoxIndex) {
   const btns = document.querySelector('.scroll-bar');
@@ -113,11 +111,16 @@ function addColor(targetBoxIndex) {
   
 }
 
+const box2 = document.querySelector('#box2')
+const box3 = document.querySelector('#box3')
+
 function removeSubElements(parent) {
   while(parent.firstChild) {
     parent.removeChild(parent.firstChild)
   }
 }
+
+let mailids = {}
 
 function addContent() {
 
@@ -165,6 +168,7 @@ const fileUploader = async (file) => {
         'Content-Type': 'multipart/form-data'
       }
     })
+    console.log(mailids);
   }
   catch(err) {
     console.log(err);
@@ -173,6 +177,8 @@ const fileUploader = async (file) => {
 }
 
 // ------------------------------ Main Event Listeners ----------------------
+
+const selectBtn = document.querySelector("#selectbtn")
 
 selectBtn.addEventListener('change', async () => {
   if(selectBtn.files.length > 0) {
@@ -196,7 +202,7 @@ selectBtn.addEventListener('change', async () => {
     }
     else if(mailids.data.msg === "exceeded") {
       selectBtn.disabled = false
-      notifier("File shouldn't contain more than 100 valid mail ids", 2, "#F39237")
+      notifier(`File shouldn't contain more than 100 valid mail ids ${mailids.data.valid.length}`, 2, "#F39237")
     }
 }
 else {
@@ -206,26 +212,51 @@ else {
 }
 })
 
-sendBtn.addEventListener('click', async () => {
-try{  
-  const from = document.querySelector('#from')
-  const subject = document.querySelector('#subject')
-  const content = document.querySelector('#content-box')
+const exclamationCircle = document.querySelector('.exclamation-circle');
+const popupWindow = document.querySelector('.popup-window');
 
-  const msg = await axios.post('/send', {
-    from: from.value,
-    subject: subject.value,
-    content: content.value
-  })
+sendBtn.addEventListener('click', async (event) => {
+  try{
+    event.preventDefault()  
+    const from = document.querySelector('#from')
+    const subject = document.querySelector('#subject')
+    const content = document.querySelector('#content-box')
 
-}
-catch(err) {
-  console.log(err);
-}
+    const msg = await axios.post('/send', {
+      from: from.value,
+      subject: subject.value,
+      content: content.value
+    })
+    notifier(msg.data.msg, 2, "green")
+
+    popupWindow.innerText = `Current Limit: ${100-msg.data.current_limit}`;
+    from.value = ""
+    subject.value = ""
+    content.value = ""
+    selectBtn.value = ""
+  }
+  catch(err) {
+    notifier(`${err.response.data.msg}`, 2, "#F39237")
+  }
 })
+
+function showPopupWindow() {
+    popupWindow.style.display = 'block';
+}
+
+function hidePopupWindow() {
+    popupWindow.style.display = 'none';
+}
+
+exclamationCircle.addEventListener('mouseenter', showPopupWindow);
+exclamationCircle.addEventListener('mouseleave', hidePopupWindow);
 
 
 // ------------------------------ Event Listeners --------------------------
+
+const btn1 = document.querySelector('#btn-1'); 
+const btn2 = document.querySelector('#btn-2'); 
+const btn3 = document.querySelector('#btn-3'); 
 
 btn1.addEventListener('click', () => {
   scrollToBox(1);
@@ -233,7 +264,7 @@ btn1.addEventListener('click', () => {
 });
 
 btn2.addEventListener('click', () => {
-  if(selectBtn.files > 0) {
+  if(selectBtn.files.length > 0) {
     scrollToBox(2);
     addColor(2)
   }
@@ -243,7 +274,7 @@ btn2.addEventListener('click', () => {
 });
 
 btn3.addEventListener('click', () => {
-  if(selectBtn.files > 0) {
+  if(selectBtn.files.length > 0) {
     scrollToBox(3);
     addColor(3)
   }
@@ -276,12 +307,14 @@ btn3.addEventListener('mouseleave', () => {
 heading[0].addEventListener('click', () => {
   scrollToBox(1);
   addColor(1);
+  exclamationCircle.style.display = "flex"
 });
 
 heading[1].addEventListener('click', () => {
   if(selectBtn.files.length > 0) {
     scrollToBox(2);
     addColor(2)
+    exclamationCircle.style.display = "none"
   }
   else {
     notifier("Upload a file", 2, "#CE2D4F")
@@ -292,6 +325,7 @@ heading[2].addEventListener('click', () => {
   if(selectBtn.files.length > 0) {
     scrollToBox(3);
     addColor(3)
+    exclamationCircle.style.display = "none"
   }
   else {
     notifier("Upload a file", 2, "#CE2D4F")

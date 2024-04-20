@@ -9,6 +9,16 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     </head>
     <body>
+        <!-- Faded Background -->
+        <div class="modal-overlay"></div>
+
+        <!-- Note Window -->
+        <div class="note-window">
+            <span class="close-btn">&times;</span>
+            <h2>Note:-</h2>
+            <p>The application can only send 100 mails per day.</p>
+        </div>
+
         <!-- Notification -->
         <div class="notification-1">
             <p class="notification-message"></p>
@@ -43,39 +53,41 @@
             <div class="container-2">
                 <div class="box" id="box1">
                     <form>    
-                    <div class="group">
-                        <p>From </p>
-                        <input type="email" class="inp" name="" id="from" placeholder="Enter your email address here" required>
-                    </div>
-
-                    <div class="group spr">
-                        <p>To</p>
-                            <p id="upf">(Upload .csv file)</p>
-                            <input type="file" name="" id="selectbtn" required title="Please upload a File First" required>
-                        </div>
-                        
                         <div class="group">
-                            <p>Subject </p>
-                            <input type="text" class="inp" name="" id="subject" placeholder="Enter your Subject here" required>
+                            <p>From </p>
+                            <input type="email" class="inp" name="" id="from" placeholder="Enter your email address here" required>
                         </div>
-                        
-                        <div class="content-box">
-                            <p>Content</p>
+
+                        <div class="group spr">
+                            <p>To</p>
+                                <p id="upf">(Upload .csv file)</p>
+                                <input type="file" name="" id="selectbtn" required title="Please upload a File First" required>
+                            </div>
                             
-                            <textarea id="content-box" class="inp" placeholder="Enter your message here" required></textarea>
+                            <div class="group">
+                                <p>Subject </p>
+                                <input type="text" class="inp" name="" id="subject" placeholder="Enter your Subject here" required>
+                            </div>
                             
-                            <div class="send-btn">
-                                <button id="s-btn">Send</button>
+                            <div class="content-box">
+                                <p>Content</p>
+                                
+                                <textarea id="content-box" class="inp" placeholder="Enter your message here" required></textarea>
+                                
+                                <div class="send-btn">
+                                    <button id="s-btn">Send</button>
+                                </div>
+                                
                             </div>
                             
                         </div>
-                        
-                    </div>
-                </form>
-
-                <div class="box" id="box2"></div>
-                
-                <div class="box" id="box3"></div>
+                    </form>
+                    <div class="exclamation-circle">!</div>
+                    <div class="popup-window">Current limit: 100 mails</div>
+                    <div class="box" id="box2"></div>
+                    
+                    <div class="box" id="box3"></div>
+                </div>
 
             </div>
             
