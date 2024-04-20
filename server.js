@@ -3,7 +3,7 @@ const routes = require('./routes/routes')
 const app = express()
 require('dotenv').config
 
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 3000
 
 app.use(express.urlencoded({extended: false}))
 app.use(express.static('./frontend'))
