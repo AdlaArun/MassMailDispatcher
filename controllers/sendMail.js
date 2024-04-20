@@ -1,6 +1,6 @@
 const nodemailer = require("nodemailer");
 const {validEmailIDs} = require('./mailValidator')
-const config = require('./config')
+// const config = require('./config')
 const { limitChecker, recordUpdate } = require('./limitHandler')
 
 let count = 0
